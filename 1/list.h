@@ -12,6 +12,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include<string.h>
+#include<conio.h>
 
 /*---------page 10 on textbook ---------*/
 #define TRUE 1
@@ -55,5 +56,7 @@ extern status ListTrabverse(SqList L,void (*visit)(int));
 /*--------------------------------------------*/
 extern status Equal(ElemType a,ElemType b);
 extern void print(int a);
+extern status SaveList(SqList *L);
+extern status LoadList(SqList **L);
 
 #endif // LIST_H_INCLUDED

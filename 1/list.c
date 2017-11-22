@@ -18,8 +18,7 @@ status IntiaList(SqList **L)
     if(!(*L)->elem) return (OVERFLOW);  //分配失败
 	(*L)->length=0;                  //置空表
     (*L)->listsize=LIST_INIT_SIZE;   //初始容量
-    printf("    Please input the name of the list :");
-    scanf("%s",(*L)->name);
+
 	return OK;
 }
 
@@ -218,74 +217,96 @@ void print(int a)
  */
 status SaveList(SqList *L)
 {
-    FILE *fp = fopen("list.dat",a);
+    FILE *fp = fopen("list.dat","a");
     int i;
     if(fp != NULL)
     {
         fprintf(fp,"%s %d %d",L->name,L->length,L->listsize);
         for(i = 1; i<=L->length; i++)
             fprintf(fp," %d",L->elem[i-1]);
-        fprintf(fp,"\n")
+        fprintf(fp,"\n");
         fclose(fp);
+        printf("\n文件保存成功！");
+        getch();
         return OK;
     }
     else
     {
-        print("文件打开失败！");
+        printf("文件打开失败！");
         return ERROR;
     }
 }
 
 status LoadList(SqList **L)
 {
-    FILE *fp = fopen("list.dat",r);
+    FILE *fp = fopen("list.dat","r");
     FILE *tpf;
+    fpos_t fps;   //文件光标位置
     int i=0;
+    int t, flag = 1;
     char tname[10],iname[10];
     if (fp != NULL)
     {
         printf("当前的线性表名称为：\n");
         tpf = fp;
+        fgetpos(tpf,&fps);   //读取文件光标位置，起始值（0）
         if(*L != NULL)
         {
             DestroyList(L);
         }
-        while(tpf)
+        while(flag)    //遍历输出中的线性表
         {
-            fscanf(tfp,"%s",tname);
+            t = fscanf(tpf,"%s",tname);
+            if(t == EOF) break;    //遇到文件尾，跳出
             printf("%s\t",tname);
-            while(fgetc(tpf)!='\n') tfp++;
+            while(flag)
+            {
+                t = fgetc(tpf);
+                if(t == EOF) flag = 0;
+                if(t == '\n') break;
+            }
         }
-        loop1:
+        flag = 1;
         printf("\n请选择要加载的线性表：");
         scanf("%s",iname);
-        tpf = fp;
-        while(tpf)
+        fsetpos(tpf, &fps);
+        while(flag)
         {
-            fscanf(tfp,"%s",tname);
-            if(!strcmp(iname,tname)) break;
-            while(fgetc(tpf)!='\n') tfp++;
+            fscanf(tpf,"%s",tname);
+            if(!strcmp(tname,iname)) break;
+            while(flag)
+            {
+                t = fgetc(tpf);
+                if(t == EOF) flag = 0;
+                if(t == '\n') break;
+            }
         }
-        if(tpf == NULL)
+        if(flag == 0)
         {
-            printf("\n没有找到，请重新输入！");
-            goto loop1;
+            printf("\n没有找到, 错误！！！\n按任意键返回!");
+            getch();
+            return ERROR;
         }
         else
         {
             IntiaList(L);
             strcpy((*L)->name, tname);
             fscanf(tpf,"%d%d",&(*L)->length,&(*L)->listsize);
-            while(fgetc(tpf)!='\n')
+            while(i<=(*L)->length)         //读取文件中的线性表
             {
-                fscanf(tpf,"%d",&(*L)->elem[i]);
+                if(fscanf(tpf,"%d",&(*L)->elem[i]) ==EOF) break;   // 防止遇到文件尾
                 i++;
+                //fgetc(tpf)!='\n' && fgetc(tpf)!=EOF
             }
         }
+        fclose(fp);
+        printf("\n文件读取成功！");
+        getch();
+        return OK;
     }
     else
     {
-        print("文件打开失败！");
+        printf("文件打开失败！");
         return ERROR;
     }
 

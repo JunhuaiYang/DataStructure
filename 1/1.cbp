@@ -34,6 +34,7 @@
 		<Unit filename="list.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="list.dat" />
 		<Unit filename="list.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

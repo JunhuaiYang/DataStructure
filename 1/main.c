@@ -33,18 +33,23 @@ int main(void)
         scanf("%d",&op);
         switch(op)
         {
-        case 1:
+        case 1: //IntiaList
             //printf("\n----IntiaList功能待实现！\n");
             if(L != NULL) printf("线性表已存在！！！");
             else
             {
-                if(IntiaList(&L)==OK) printf("线性表创建成功！\n");
+                if(IntiaList(&L)==OK)
+                {
+                    printf("    Please input the name of the list :");
+                    scanf("%s",L->name);
+                    printf("线性表创建成功！\n");
+                }
                 else printf("线性表创建失败！\n");
             }
             getchar();
             getchar();
             break;
-        case 2:
+        case 2: //DestroyList
             //printf("\n----DestroyList功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -54,7 +59,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 3:
+        case 3: //ClearList
             //printf("\n----ClearList功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -64,7 +69,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 4:
+        case 4: //ListEmpty
             //printf("\n----ListEmpty功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -75,7 +80,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 5:
+        case 5: //ListLength
             //printf("\n----ListLength功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -85,7 +90,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 6:
+        case 6:  //GetElem
             //printf("\n----GetElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -95,12 +100,12 @@ int main(void)
                 if(GetElem(*L, i, &e)==OK)
                     printf("\n第%d个位置的元素为：%d",i,e);
                 else
-                    printf("输入超出链表范围！");
+                    printf("输入超出线性表范围！");
             }
             getchar();
             getchar();
             break;
-        case 7:
+        case 7:  //LocateElem
             //printf("\n----LocateElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -117,7 +122,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 8:
+        case 8:  //PriorElem
             //printf("\n----PriorElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -134,7 +139,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 9:
+        case 9:  //NextElem
             //printf("\n----NextElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -151,7 +156,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 10:
+        case 10:  //ListInsert
             //printf("\n----ListInsert功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -177,7 +182,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 11:
+        case 11: //ListDelete
             //printf("\n----ListDelete功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -191,7 +196,7 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 12:
+        case 12: //ListTrabverse
             //printf("\n----ListTrabverse功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
@@ -201,11 +206,11 @@ int main(void)
             getchar();
             getchar();
             break;
-        case 13:
-
+        case 13:  //SaveList
+            SaveList(L);
             break;
-        case 14:
-
+        case 14: //LoadList
+            LoadList(&L);
             break;
         case 0:
             break;
