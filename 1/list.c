@@ -237,6 +237,11 @@ status SaveList(SqList *L)
     }
 }
 
+/** \brief 读取数据
+ *
+ *        读取文件中的数据并加载到线性表中
+ *
+ */
 status LoadList(SqList **L)
 {
     FILE *fp = fopen("list.dat","r");
@@ -270,7 +275,7 @@ status LoadList(SqList **L)
         printf("\n请选择要加载的线性表：");
         scanf("%s",iname);
         fsetpos(tpf, &fps);
-        while(flag)
+        while(flag)  //查找线性表
         {
             fscanf(tpf,"%s",tname);
             if(!strcmp(tname,iname)) break;

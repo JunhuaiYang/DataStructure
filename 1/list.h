@@ -40,6 +40,7 @@ typedef struct{  //顺序表（顺序结构）的定义
 //发现在标准C语言中，函数参数无法使用&传递
 //把所有&L改为了*L
 
+//函数定义
 /*-----page 19 on textbook ---------*/
 extern status IntiaList(SqList **L);
 extern status DestroyList(SqList **L);
