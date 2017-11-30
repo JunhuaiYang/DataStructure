@@ -29,7 +29,7 @@ status DestroyList(SqList **L)
 {
     int i;
     int *tail;
-    for(i = 0; i<(*L)->listsize; i++)  //释放elem申请的内存空间
+    for(i = 0; i<(*L)->length; i++)  //释放elem申请的内存空间
     {
         tail = (*L)->elem++;
         free(tail);
@@ -252,7 +252,7 @@ status LoadList(SqList **L)
     char tname[10],iname[10];
     if (fp != NULL)
     {
-        printf("当前的线性表名称为：\n");
+        printf("当前文件中存在的线性表名称为：\n");
         tpf = fp;
         fgetpos(tpf,&fps);   //读取文件光标位置，起始值（0）
         if(*L != NULL)
@@ -312,8 +312,22 @@ status LoadList(SqList **L)
     else
     {
         printf("文件打开失败！");
+        getch();
         return ERROR;
     }
 
 
+}
+
+
+/** \brief 改变当前链表的名字
+ *
+ */
+status ChangeName(SqList **L)
+{
+    printf("当前链表的名字为：%s",(*L)->name);
+    printf("\n请输入要更改的名字：");
+    scanf("%s",(*L)->name);
+    printf("修改成功！");
+    return OK;
 }

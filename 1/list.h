@@ -59,5 +59,6 @@ extern status Equal(ElemType a,ElemType b);
 extern void print(int a);
 extern status SaveList(SqList *L);
 extern status LoadList(SqList **L);
+extern status ChangeName(SqList **L);
 
 #endif // LIST_H_INCLUDED

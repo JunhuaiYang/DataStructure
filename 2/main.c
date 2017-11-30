@@ -1,24 +1,26 @@
-/** \brief
+/** \brief  线性表链式实现
  *         该文件用于储存主函数
  *
  */
 #include"list.h"
 
+char name[10]; // name为全局变量，用于储存名字
+
 int main(void)
 {
-    SqList *L =NULL;
+    LinkList L = NULL;
     int op=1;
     int i, e, flag;
     while(op)
     {
         system("cls");
         printf("\n\n");
-        printf("      Menu for Linear Table On Sequence Structure \n");
+        printf("      Menu for Linear Table On Link Structure \n");
         printf("-------------------------------------------------\n");
         printf("                     Attation           \n");
         if(L == NULL)
             printf("    There is no list now! Please Init a list! \n");
-        else printf("     There is a list now!    list name: %s\n",L->name);
+        else printf("     There is a list now!    list name: %s\n",name);
         printf("-------------------------------------------------\n");
         printf("    	  1. IntiaList       7. LocateElem\n");
         printf("    	  2. DestroyList     8. PriorElem\n");
@@ -27,7 +29,7 @@ int main(void)
         printf("    	  5. ListLength      11. ListDelete\n");
         printf("    	  6. GetElem         12. ListTrabverse\n\n");
         printf("    	  13. SaveList       14. LoadList\n");
-        printf("    	  15. ChangeName      \n");
+        printf("    	  15. ChangeName    \n");
         printf("    	  0. Exit\n");
         printf("-------------------------------------------------\n");
         printf("    请选择你的操作[0~12]:");
@@ -35,14 +37,13 @@ int main(void)
         switch(op)
         {
         case 1: //IntiaList
-            //printf("\n----IntiaList功能待实现！\n");
-            if(L != NULL) printf("线性表已存在！！！\n若需要读取其他表请选择LoadList");
+            if(L != NULL) printf("线性表已存在！！！");
             else
             {
                 if(IntiaList(&L)==OK)
                 {
                     printf("    Please input the name of the list :");
-                    scanf("%s",L->name);
+                    scanf("%s",name);
                     printf("线性表创建成功！\n");
                 }
                 else printf("线性表创建失败！\n");
@@ -51,7 +52,6 @@ int main(void)
             getchar();
             break;
         case 2: //DestroyList
-            //printf("\n----DestroyList功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
@@ -61,7 +61,6 @@ int main(void)
             getchar();
             break;
         case 3: //ClearList
-            //printf("\n----ClearList功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
@@ -71,34 +70,31 @@ int main(void)
             getchar();
             break;
         case 4: //ListEmpty
-            //printf("\n----ListEmpty功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
-                if(ListEmpty(*L)) printf("当前线性表为空表!");
+                if(ListEmpty(L)) printf("当前线性表为空表!");
                 else printf("当前线性表为非空表！");
             }
             getchar();
             getchar();
             break;
         case 5: //ListLength
-            //printf("\n----ListLength功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
-                printf("当前线性表长度为：%d",ListLength(*L));
+                printf("当前线性表长度为：%d",ListLength(L));
             }
             getchar();
             getchar();
             break;
         case 6:  //GetElem
-            //printf("\n----GetElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
                 printf("请输入要查找的第几个位置：");
                 scanf("%d",&i);
-                if(GetElem(*L, i, &e)==OK)
+                if(GetElem(L, i, &e)==OK)
                     printf("\n第%d个位置的元素为：%d",i,e);
                 else
                     printf("输入超出线性表范围！");
@@ -107,14 +103,13 @@ int main(void)
             getchar();
             break;
         case 7:  //LocateElem
-            //printf("\n----LocateElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
                 printf("请输入条件e：");
                 scanf("%d",&e);
                 printf("\n当前的compare()关系为“相等”");
-                i = LocateElem(*L, e, Equal);
+                i = LocateElem(L, e, Equal);
                 if(i == 0)
                     printf("\n找不到满足该关系的元素");
                 else
@@ -124,13 +119,12 @@ int main(void)
             getchar();
             break;
         case 8:  //PriorElem
-            //printf("\n----PriorElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
                 printf("请输入要查找前驱的元素（不要输入第一个元素）：");
                 scanf("%d",&e);
-                if(PriorElem(*L, e, &i) == OK)
+                if(PriorElem(L, e, &i) == OK)
                 {
                     printf("%d元素的前驱是：%d",e,i);
                 }
@@ -141,13 +135,12 @@ int main(void)
             getchar();
             break;
         case 9:  //NextElem
-            //printf("\n----NextElem功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
                 printf("请输入要查找后继的元素（不要输入最后一个元素）：");
                 scanf("%d",&e);
-                if(NextElem(*L, e, &i) == OK)
+                if(NextElem(L, e, &i) == OK)
                 {
                     printf("%d元素的后继是：%d",e,i);
                 }
@@ -158,7 +151,6 @@ int main(void)
             getchar();
             break;
         case 10:  //ListInsert
-            //printf("\n----ListInsert功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
@@ -184,7 +176,6 @@ int main(void)
             getchar();
             break;
         case 11: //ListDelete
-            //printf("\n----ListDelete功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
@@ -198,11 +189,10 @@ int main(void)
             getchar();
             break;
         case 12: //ListTrabverse
-            //printf("\n----ListTrabverse功能待实现！\n");
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
             {
-                if(!ListTrabverse(*L,print)) printf("线性表是空表！\n");
+                if(!ListTrabverse(L,print)) printf("线性表是空表！\n");
             }
             getchar();
             getchar();
@@ -216,7 +206,7 @@ int main(void)
         case 15:  //ChangeName
             if(L == NULL) printf("当前没有线性表！请选择创建线性表或者加载数据！\n");
             else
-                ChangeName(&L);
+                ChangeName();
             getch();
             break;
         case 0:
