@@ -6,8 +6,6 @@
  *
  */
 
-
-/* Linear Table On Sequence Structure */
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
@@ -22,8 +20,6 @@
 #define INFEASTABLE -1
 #define OVERFLOW -2
 
-#define LIST_INIT_SIZE 100
-#define LISTINCREMENT  10
 
 typedef int status;
 typedef int ElemType; //数据元素类型定义

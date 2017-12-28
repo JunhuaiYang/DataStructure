@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1512043274 source:f:\study\project\datastructure\2\main.c
+1512043815 source:f:\study\project\datastructure\2\main.c
 	"list.h"
 
-1512043179 f:\study\project\datastructure\2\list.h
+1512647715 f:\study\project\datastructure\2\list.h
 	<stdio.h>
 	<malloc.h>
 	<stdlib.h>

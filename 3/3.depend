@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1514459534 source:f:\study\project\datastructure\3\main.c
+	"tree.h"
+
+1514453622 f:\study\project\datastructure\3\tree.h
+	<stdio.h>
+	<malloc.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<stddef.h>
+
+1514458961 source:f:\study\project\datastructure\3\tree.c
+	"tree.h"
+

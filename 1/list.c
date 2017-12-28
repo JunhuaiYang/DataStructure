@@ -170,7 +170,7 @@ status ListDelete(SqList *L,int i,ElemType *e)
 {
     if(i<1 || i>L->length+1) return ERROR;  //判断输入是否合法
     int *p, *q;
-    p = &(L->elem[i-1]);
+    p = &(L->elem[i-1]);   //获取删除位置
     *e = *p;
     q = L->elem + L->length-1;  //表尾位置
     for(++p; p<=q; ++p)
