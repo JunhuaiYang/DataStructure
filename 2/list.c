@@ -14,7 +14,7 @@
 status IntiaList(LinkList *L)
 {
     *L = (LNode*)malloc(sizeof(LNode));  //申请一个头结点
-    (*L)->next = NULL;
+    (*L)->next = NULL;           //赋空
 
 	return OK;
 }
@@ -34,10 +34,10 @@ status DestroyList(LinkList *L)
     {
         p = tail;
         tail = tail->next;
-        while(tail)
+        while(tail)   //销毁每个几点
         {
             tail = tail->next;
-            free(p);
+            free(p);      //释放空间
             p = tail;
         }
 
@@ -66,8 +66,8 @@ status ClearList(LinkList L)
         tail = tail->next;  //跳过头结点
         while(tail)
         {
-            tail =tail->next;
-            free(p);
+            tail =tail->next;  //tail遍历
+            free(p);       //释放临时节点p
             p = tail;
         }
         L->next = NULL;  //将节点的next置为空
@@ -80,7 +80,7 @@ status ClearList(LinkList L)
  */
 status ListEmpty(LinkList L)
 {
-    if(L->next == NULL) return TRUE;
+    if(L->next == NULL) return TRUE;  //头结点没有指向则为空
     else return FALSE;
 }
 
@@ -95,12 +95,12 @@ int ListLength(LinkList L)
     {
         count = 0;
     }
-    else
+    else   //非空表时
     {
-        tail = tail->next;
+        tail = tail->next;   //遍历
         while(tail)
         {
-            count++;
+            count++;       //count 计数
             tail = tail->next;
         }
     }
@@ -121,12 +121,12 @@ status GetElem(LinkList L,int i,ElemType *e)
     else
     {
         tail = tail->next;
-        while(tail)
+        while(tail)   //遍历
         {
             count++;
-            if(count == i)
+            if(count == i)        //查找元素
             {
-                *e = tail->data;
+                *e = tail->data;   //找到用e返回
                 return OK;
             }
             tail = tail->next;
@@ -149,15 +149,15 @@ int LocateElem(LinkList L,ElemType e, status(*compare)(ElemType,ElemType))
         printf("\n该表为空表！\n");
         return ERROR;
     }
-    else
+    else      //非空表
     {
         tail = tail->next;
-        while(tail)
+        while(tail)         //遍历
         {
             count++;
             if(compare(tail->data,e))   //判断相等条件
             {
-                return count;
+                return count;      //返回位序
             }
             tail = tail->next;
         }
@@ -178,20 +178,20 @@ status PriorElem(LinkList L,ElemType cur_e,ElemType *pre_e)
         printf("该表为空表！\n");
         return ERROR;
     }
-    else
+    else      //为非空表
     {
         tail = tail->next;
         if(tail->data == cur_e) return ERROR;  //遇到第一个报错
-        p = tail;
-        tail = tail->next;
+        p = tail;         //p为临时指针
+        tail = tail->next;  //遍历
         while(tail)
         {
-            if(tail->data == cur_e)
+            if(tail->data == cur_e)  //遍历找到
             {
-                *pre_e = p->data;
+                *pre_e = p->data;  //返回临时指针的值
                 return OK;
             }
-            p = tail;
+            p = tail;          //临时指针为tail的上一个
             tail = tail->next;
         }
         return ERROR;  //没有找到返回错误
@@ -212,16 +212,16 @@ status NextElem(LinkList L,ElemType cur_e,ElemType *next_e)
         printf("该表为空表！\n");
         return ERROR;
     }
-    else
+    else   //非空表时
     {
         tail = tail->next;
-        while(tail)
+        while(tail)      //遍历
         {
             if(tail->data == cur_e)
             {
-                if(tail->next)
+                if(tail->next)    //查找后继
                 {
-                    *next_e = tail->next->data;
+                    *next_e = tail->next->data;      //找到则返回下一个的值
                     return OK;
                 }
                 else
@@ -250,7 +250,7 @@ status ListInsert(LinkList L,int i,ElemType e)
         p = p->next;
         j++;
     }
-    if(!p || j>i-1) return ERROR;
+    if(!p || j>i-1) return ERROR;         //输入非法
     s = (LNode*)malloc(sizeof(LNode));   //生成新节点
     s->data = e;                 //插入新节点
     s->next = p->next;
@@ -292,7 +292,7 @@ status ListDelete(LinkList L,int i,ElemType *e)
 status ListTrabverse(LinkList L,void (*visit)(int))
 {
    LNode *tail = L;
-   if(tail->next == NULL)
+   if(tail->next == NULL)    //为空表时
    {
        return ERROR;
    }
@@ -300,7 +300,7 @@ status ListTrabverse(LinkList L,void (*visit)(int))
    printf("\n-----------all elements -----------------------\n");
    while(tail)
    {
-       printf("%d ",tail->data);
+       printf("%d ",tail->data);     //遍历输出
        tail = tail->next;
    }
    printf("\n------------------ end ------------------------\n");

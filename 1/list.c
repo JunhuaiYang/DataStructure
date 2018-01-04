@@ -71,7 +71,7 @@ int ListLength(SqList L)
  */
 status GetElem(SqList L,int i,ElemType *e)
 {
-    if(i> L.length) return (ERROR);
+    if(i> L.length) return (ERROR);   //错误返回ERRor
     *e = L.elem[i-1];
     return OK;
 
@@ -85,9 +85,9 @@ int LocateElem(SqList L,ElemType e, status(*compare)(ElemType,ElemType))
 {
     int i = 1;
     int *p = L.elem;
-    while(i<=L.listsize && !((*compare)(*p++,e))) i++;
+    while(i<=L.listsize && !((*compare)(*p++,e))) i++;    //查找 和 比较函数比较
     if(i<=L.length) return i;
-    else return 0;
+    else return 0;              //找不到返回0
 }
 
 /** \brief 获得前驱 函数名称是PriorElem(L,cur_e,pre_e)；
@@ -144,10 +144,10 @@ status ListInsert(SqList *L,int i,ElemType e)
     //是否表满
     if(L->length >= L->listsize)
     {
-        newbase = (ElemType*) realloc(L->elem, (L->length+LISTINCREMENT)*sizeof(ElemType));
+        newbase = (ElemType*) realloc(L->elem, (L->length+LISTINCREMENT)*sizeof(ElemType));   //重新分配
         if(!newbase) return (OVERFLOW);  //分配失败
         L->elem = newbase;
-        L->listsize += LISTINCREMENT;
+        L->listsize += LISTINCREMENT;    //+LISTINCREMENT
     }
 
     q = &(L->elem[i-1]);  // 获取现在插入的值
@@ -173,9 +173,9 @@ status ListDelete(SqList *L,int i,ElemType *e)
     p = &(L->elem[i-1]);   //获取删除位置
     *e = *p;
     q = L->elem + L->length-1;  //表尾位置
-    for(++p; p<=q; ++p)
+    for(++p; p<=q; ++p)   // 移动元素
         *(p-1) = *p;
-    L->length --;
+    L->length --;   //表长-1
     return OK;
 }
 
@@ -189,7 +189,7 @@ status ListTrabverse(SqList L,void (*visit)(int))
 {
    int i;
    printf("\n-----------all elements -----------------------\n");
-   for(i=0;i<L.length;i++) visit(L.elem[i]);
+   for(i=0;i<L.length;i++) visit(L.elem[i]);                  //用visit遍历
    printf("\n------------------ end ------------------------\n");
    return L.length;
 }
@@ -217,15 +217,15 @@ void print(int a)
  */
 status SaveList(SqList *L)
 {
-    FILE *fp = fopen("list.dat","a");
+    FILE *fp = fopen("list.dat","a");   //在文件尾写打开文件
     int i;
     if(fp != NULL)
     {
-        fprintf(fp,"%s %d %d",L->name,L->length,L->listsize);
-        for(i = 1; i<=L->length; i++)
+        fprintf(fp,"%s %d %d",L->name,L->length,L->listsize);      //先保存表的信息
+        for(i = 1; i<=L->length; i++)    //保存表的内容
             fprintf(fp," %d",L->elem[i-1]);
-        fprintf(fp,"\n");
-        fclose(fp);
+        fprintf(fp,"\n"); //下一行
+        fclose(fp);     //关闭文件
         printf("\n文件保存成功！");
         getch();
         return OK;
@@ -244,7 +244,7 @@ status SaveList(SqList *L)
  */
 status LoadList(SqList **L)
 {
-    FILE *fp = fopen("list.dat","r");
+    FILE *fp = fopen("list.dat","r");   //只读打开文件
     FILE *tpf;
     fpos_t fps;   //文件光标位置
     int i=0;
@@ -264,7 +264,7 @@ status LoadList(SqList **L)
             t = fscanf(tpf,"%s",tname);
             if(t == EOF) break;    //遇到文件尾，跳出
             printf("%s\t",tname);
-            while(flag)
+            while(flag)     //flag来判断是否到文件尾
             {
                 t = fgetc(tpf);
                 if(t == EOF) flag = 0;
@@ -272,27 +272,27 @@ status LoadList(SqList **L)
             }
         }
         flag = 1;
-        printf("\n请选择要加载的线性表：");
+        printf("\n请选择要加载的线性表：");     //选择线性表
         scanf("%s",iname);
         fsetpos(tpf, &fps);
         while(flag)  //查找线性表
         {
             fscanf(tpf,"%s",tname);
             if(!strcmp(tname,iname)) break;
-            while(flag)
+            while(flag)          //读物文件来加载
             {
                 t = fgetc(tpf);
                 if(t == EOF) flag = 0;
                 if(t == '\n') break;
             }
         }
-        if(flag == 0)
+        if(flag == 0)     //未找到处理
         {
             printf("\n没有找到, 错误！！！\n按任意键返回!");
             getch();
             return ERROR;
         }
-        else
+        else     //找到加载
         {
             IntiaList(L);
             strcpy((*L)->name, tname);
@@ -315,7 +315,6 @@ status LoadList(SqList **L)
         getch();
         return ERROR;
     }
-
 
 }
 

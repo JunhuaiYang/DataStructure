@@ -83,5 +83,6 @@ extern status SavePreOrderTraverse(BiTree T, FILE *fp);
 extern status SaveTree(SqList *treelist);
 extern status LoadTree(Tree **base);
 extern status ChooseTree(Tree **base);
+extern BiTree FindNode(BiTree T,int e);
 
 #endif // TREE_H_INCLUDED

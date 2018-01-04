@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1515052360 source:f:\study\project\datastructure\4\graph.c
+	"graph.h"
+
+1514969867 f:\study\project\datastructure\4\graph.h
+	<stdio.h>
+	<malloc.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<stddef.h>
+	<stdbool.h>
+
+1514999653 source:f:\study\project\datastructure\4\main.c
+	"graph.h"
+

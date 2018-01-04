@@ -32,8 +32,8 @@ status InitBiTree(Tree **T)
         (L)->listsize=LIST_INIT_SIZE;   //初始容量
         treelist = L;   //赋值给全局变量
 
-        treelist->elem[0] = newbase;
-        treelist->length++;
+        treelist->elem[0] = newbase;   //赋值给表头
+        treelist->length++;      //表长++
     }
     else
     {
@@ -45,8 +45,8 @@ status InitBiTree(Tree **T)
             if(!newbase) return (OVERFLOW);  //分配失败
             L->listsize += LISTINCREMENT;
         }
-        L->elem[L->length] = newbase;
-        treelist->length++;
+        L->elem[L->length] = newbase;  //加在表尾
+        treelist->length++;        //表长++
     }
     return OK;
 
@@ -65,56 +65,63 @@ status DestroyBiTree(Tree **T)
     Tree  **r, **s;
     BitNode *Tnode, *stack[100], *p, *q;
 
+    if(treelist == NULL)      //不存在保存树的线性表处理
+    {
+        printf("当前没有二叉树！请创建！");
+        getch();
+        return ERROR;
+    }
     printf("当前存在的树为：\n");   // 遍历选择当前要销毁的树
     for( i=0; i<treelist->length; i++)
         printf("%s   ",treelist->elem[i]->name);
-    printf("\n请输入要删除的树的名称：");
+    printf("\n请输入要删除的树的名称：");  //选择要销毁的树
     scanf("%s",ch);
     i = 1;
     while(i<=treelist->length && strcmp(ch, treelist->elem[i-1]->name)) i++;  //查找要销毁的表
     if( i == treelist->length+1)
     {
-        printf("\n找不到！");
+        printf("\n找不到！");    //找不到处理
         return ERROR;
     }
-    else
+    else   //找到
     {
-        if(*T != NULL)
+        if(*T != NULL)      //当前存在树的处理
         {
             *T = NULL;
         }
-        Tnode = treelist->elem[i-1]->HeadNode;
-        //删除在表中的位置
-        r = &(treelist->elem[i-1]);   //获取删除位置
-        s = treelist->elem + treelist->length-1;  //表尾位置
-        for(++r; r<=s; ++s)
-            *(r-1) = *r;
-        treelist->length --;
+        Tnode = treelist->elem[i-1]->HeadNode;     //Tnode为销毁的临时节点
 
         //销毁
         if(Tnode == NULL)   //空树时
         {
-            return OK;
+            goto loop;
         }
         p = Tnode->lchild;
         q = Tnode->rchild;
         if (p == NULL && q == NULL)  //只有根节点
         {
-            free(Tnode);
-            return OK;
+            goto loop;
         }
         if (p->lchild) stack[++top] = p->lchild;   //用数组表示栈
         else if (p->rchild) stack[++top] = p->rchild;
 
-        while (top>-1)
+        while (top>-1)      //'用栈来释放节点
         {
             p = stack[top--];
             q = p;
-            if (p->rchild) stack[++top] = p->rchild;
-            if (p->lchild) stack[++top] = p->lchild;
+            if (p->rchild) stack[++top] = p->rchild;      //右子树入栈
+            if (p->lchild) stack[++top] = p->lchild;      //左子树入栈
             free(q);
         }
-        free(Tnode);  //最后释放该节点
+
+        loop:
+        //删除在表中的位置
+        r = &(treelist->elem[i-1]);   //获取删除位置
+        s = treelist->elem + treelist->length-1;  //表尾 位置
+        for(++r; r<=s; ++r)    //移动表后的元素
+            *(r-1) = *r;
+        treelist->length--;    //表长-1
+
         return OK;
     }
 
@@ -130,10 +137,10 @@ status DestroyBiTree(Tree **T)
 status CreateBiTree(BitNode **T, char **definition)
 {
     if(**definition == '\0') return OK;   //count 为全局变量
-    if(**definition == '@')
+    if(**definition == '@')      //遇到@表示遇到空，赋值空
     {
         *T = NULL;
-        (*definition)++;
+        (*definition)++;   //数组指针下移一位
     }
     else
     {
@@ -168,12 +175,12 @@ status ClearBiTree (Tree *T)
     if (p->lchild) stack[++top] = p->lchild;   //用数组表示栈
     else if (p->rchild) stack[++top] = p->rchild;
 
-    while (top>-1)
+    while (top>-1)       //top为栈顶
     {
-        p = stack[top--];
+        p = stack[top--];   //出栈
         q = p;
-        if (p->rchild) stack[++top] = p->rchild;
-        if (p->lchild) stack[++top] = p->lchild;
+        if (p->rchild) stack[++top] = p->rchild; //右子树入栈
+        if (p->lchild) stack[++top] = p->lchild; //左子树入栈
         free(q);
     }
     T->HeadNode = NULL;
@@ -209,13 +216,13 @@ status BiTreeDepth(BiTree T, int i)   //i在初始时应该为0,count也为0
 */
 char Root(Tree *T)
 {
-    if(T->HeadNode == NULL)
+    if(T->HeadNode == NULL)       //为空树的处理
     {
         printf("当前树为空树！");
         getch();
         return ERROR;
     }
-    else
+    else       //非空
     {
         return T->HeadNode->value;
     }
@@ -227,7 +234,7 @@ char Root(Tree *T)
 */
 char Value(BiTree T,int e)
 {
-    if(T == NULL) return ERROR;
+    if(T == NULL) return ERROR;            //递归条件判断
     if(T->key == e) return T->value;
 
     int a,b;
@@ -247,7 +254,7 @@ char Value(BiTree T,int e)
 */
 status Assign(BiTree T,int e,ElemType value)
 {
-    if(T == NULL) return ERROR;
+    if(T == NULL) return ERROR;      //递归条件判断
     if(T->key == e)
     {
         T->value = value;
@@ -258,7 +265,7 @@ status Assign(BiTree T,int e,ElemType value)
     a = Assign(T->lchild, e, value);   //遍历左子树
     b = Assign(T->rchild, e, value);   //遍历右子树
 
-    if(a == OK) return a;
+    if(a == OK) return a;        //递归返回
     if(b == OK) return b;
 
     return ERROR;    //return ERROR 表示没有找到
@@ -273,7 +280,7 @@ BiTree Parent(Tree *T,int e)
 {
     int top = -1;
 
-    if(T->HeadNode == NULL)
+    if(T->HeadNode == NULL)   //为空树的处理
     {
         printf("当前树为空树！");
         getch();
@@ -297,7 +304,7 @@ BiTree Parent(Tree *T,int e)
                 stack[++top] = p->rchild;    //右子树入栈
             }
         }
-        if (top<=-1) return NULL;   //若栈指针为空，则没有找到！
+        if (top<-1) return NULL;   //若栈指针为空，则没有找到！
         return p;
     }
 }
@@ -308,8 +315,8 @@ BiTree Parent(Tree *T,int e)
 */
 BiTree LeftChild(BiTree T,int e)
 {
-    if(T == NULL) return ERROR;
-    if(T->key == e)
+    if(T == NULL) return NULL;//递归找不到
+    if(T->key == e)             //递归找到节点
     {
         if(T->lchild == NULL)
         {
@@ -323,7 +330,7 @@ BiTree LeftChild(BiTree T,int e)
     a = LeftChild(T->lchild, e);   //遍历左子树
     b = LeftChild(T->rchild, e);   //遍历右子树
 
-    if(a != NULL) return a;
+    if(a != NULL) return a;    //递归返回
     if(b != NULL) return b;
 
     return NULL;    //return NULL 表示没有找到
@@ -335,8 +342,8 @@ BiTree LeftChild(BiTree T,int e)
 */
 BiTree RightChild(BiTree T,int e)
 {
-    if(T == NULL) return ERROR;
-    if(T->key == e)
+    if(T == NULL) return NULL;   //递归找不到
+    if(T->key == e)       //递归找到节点
     {
         if(T->rchild == NULL)
         {
@@ -347,10 +354,10 @@ BiTree RightChild(BiTree T,int e)
 
     BiTree a,b;
 
-    a = LeftChild(T->lchild, e);   //遍历左子树
-    b = LeftChild(T->rchild, e);   //遍历右子树
+    a = RightChild(T->lchild, e);   //遍历左子树
+    b = RightChild(T->rchild, e);   //遍历右子树
 
-    if(a != NULL) return a;
+    if(a != NULL) return a;       //递归返回
     if(b != NULL) return b;
 
     return NULL;    //return NULL 表示没有找到
@@ -364,7 +371,7 @@ BiTree LeftSibling(Tree *T,int e)
 {
     int top = -1;   //栈顶位置标记
 
-    if(T->HeadNode == NULL)
+    if(T->HeadNode == NULL)  //为空树的处理
     {
         printf("当前树为空树！");
         getch();
@@ -388,8 +395,8 @@ BiTree LeftSibling(Tree *T,int e)
                 stack[++top] = p->rchild;     //右孩子入栈
             }
         }
-        if (top<=-1) return NULL;   //若栈指针为空，则没有找到！
-        if(p->lchild != NULL)
+        if (top<-1) return NULL;   //若栈指针为空，则没有找到！
+        if(p->lchild != NULL && p->lchild->key != e)  //防止自身被当成兄弟
             return p->lchild;
         else
             return NULL;   //其他情况
@@ -404,7 +411,7 @@ BiTree RightSibling(Tree *T,int e)
 {
     int top = -1;   //栈顶位置标记
 
-    if(T->HeadNode == NULL)
+    if(T->HeadNode == NULL)     //为空树的处理
     {
         printf("当前树为空树！");
         getch();
@@ -428,8 +435,8 @@ BiTree RightSibling(Tree *T,int e)
             stack[++top] = p->lchild;          //左孩子入栈
         }
     }
-    if (top<=-1) return NULL;   //若栈指针为空，则没有找到！
-    if(p->rchild != NULL)
+    if (top< -1) return NULL;   //若栈指针为空，则没有找到！
+    if(p->rchild != NULL && p->rchild->key != e)  //防止自身被当成兄弟
         return p->rchild;
     else
         return NULL;   //其他情况
@@ -443,6 +450,25 @@ BiTree RightSibling(Tree *T,int e)
 */
 status InsertChild(BiTree T,BiTree p,status LR,BiTree c)
 {
+    BiTree temp;
+
+    if(LR == LEFT)  //插入到左
+    {
+        temp = p->lchild;   //交换节点所指
+        p->lchild = c;
+        c->rchild = temp;
+    }
+    else if(LR == RIGHT)  //插入到右
+    {
+        temp = p->rchild;   //交换节点所指
+        p->rchild = c;
+        c->rchild = temp;
+    }
+    else
+    {
+        printf("输入非法！");
+        return ERROR;
+    }
 
     return OK;
 }
@@ -451,8 +477,50 @@ status InsertChild(BiTree T,BiTree p,status LR,BiTree c)
 *        初始条件是二叉树T存在，p指向T中的某个结点，LR为0或1。
 *          操作结果是根据LR为0或者1，删除c为T中p所指结点的左或右子树。
 */
-status DeleteChild(BiTree T,BiTree p,status LR)
+status DeleteChild(BiTree T,BiTree pp,status LR)
 {
+    BitNode *Tnode,  *stack[100], *p, *q;
+    int top = -1;
+
+    if(LR == LEFT)   //选择左子树或右子树
+    {
+        Tnode = pp->lchild;
+        pp->lchild = NULL;
+    }
+    else if(LR == RIGHT)
+    {
+        Tnode = pp->rchild;
+        pp->rchild = NULL;
+    }
+    else       //输入非法！
+        return ERROR;
+
+    if(Tnode == NULL)
+    {
+        printf("该子树为空，错误！\n");
+        return ERROR;
+    }
+
+    //释放节点
+    p = Tnode->lchild;
+    q = Tnode->rchild;
+    if (p == NULL && q == NULL)  //只有根节点
+    {
+        free(Tnode);
+        return OK;
+    }
+    if (p->lchild) stack[++top] = p->lchild;   //用数组表示栈
+    else if (p->rchild) stack[++top] = p->rchild;
+
+    while (top>-1)       //依次释放栈中的节点
+    {
+        p = stack[top--];
+        q = p;
+        if (p->rchild) stack[++top] = p->rchild;
+        if (p->lchild) stack[++top] = p->lchild;
+        free(q);
+    }
+
 
     return OK;
 }
@@ -480,9 +548,9 @@ status InOrderTraverse(BiTree T,void (*visit)(char c) )
 {
     if(T == NULL) return ERROR;
 
-    PreOrderTraverse(T->lchild, visit);   //访问左子树
+    InOrderTraverse(T->lchild, visit);   //访问左子树
     visit(T->value);                //访问根节点
-    PreOrderTraverse(T->rchild, visit);   //访问右子树
+    InOrderTraverse(T->rchild, visit);   //访问右子树
 
     return OK;
 }
@@ -495,8 +563,8 @@ status PostOrderTraverse(BiTree T,void (*visit)(char c) )
 {
     if(T == NULL) return ERROR;
 
-    PreOrderTraverse(T->lchild, visit);   //访问左子树
-    PreOrderTraverse(T->rchild, visit);   //访问右子树
+    PostOrderTraverse(T->lchild, visit);   //访问左子树
+    PostOrderTraverse(T->rchild, visit);   //访问右子树
     visit(T->value);                //最后访问根节点
 
     return OK;
@@ -512,32 +580,47 @@ status LevelOrderTraverse(BiTree T,void (*visit)(char c), BiTree *F,BiTree *H )
 {
     *F=T;            //将当前节点放入队列首指针所指位置
     visit((*F)->value);   //输出尾指针
-    if((*F)->lchild!=NULL)
+
+    if((*F)->lchild != NULL)
     {
         H=H+1;             //头指针后移
-        *H=(*F)->lchild;    //节点的左儿子放入队尾
+        *H=(*F)->lchild;    //节点的左儿子放入队头
     }
-    if((*F)->rchild!=NULL)
+    if((*F)->rchild != NULL)
     {
         H=H+1;                //头针向后移动一格
-        *H=(*F)->rchild;    //节点的右儿子放入队尾
+        *H=(*F)->rchild;    //节点的右儿子放入队头
     }
 
     F=F+1;    //尾指针后移一位
-    if(F!=H)
+    if(F != H || (*F)->lchild != NULL || (*F)->rchild != NULL)   //当队头不等于队尾时递归， 此时要注意队尾也有可能有左子树右子树没有进队列
         LevelOrderTraverse(*F ,visit ,F ,H);//递归
     else
         visit((*F)->value);    //输出尾指针
     return OK;
 }
 
+/** \brief 输出函数
+ *
+ */
 void printf_my(char a)
 {
     printf("%c  ",a);
 }
 
+/** \brief 保存表到文件
+ *
+ *        储存格式为 length listsize\n名称 数据\n
+ *
+ */
 status SaveTree(SqList *treelist)
 {
+    if(treelist == NULL)   //先判断
+    {
+        printf("当前不存在保存树的线性表！请初始化再保存！");
+        getch();
+        return ERROR;
+    }
     FILE *fp = fopen("Bitree.dat","w");   //只写的方式打开文件
     int i;
     if(fp != NULL)
@@ -548,8 +631,8 @@ status SaveTree(SqList *treelist)
         {
             fprintf(fp,"%s ", treelist->elem[i]->name);
             SavePreOrderTraverse(treelist->elem[i]->HeadNode, fp);
+            fprintf(fp,"\n");
         }
-        fprintf(fp,"\n");
         fclose(fp);
         printf("\n文件保存成功！");
         getch();
@@ -562,6 +645,9 @@ status SaveTree(SqList *treelist)
     }
 }
 
+/** \brief 保存表到文件时的前序遍历，输出带@的前序遍历到文件
+ *
+ */
 status SavePreOrderTraverse(BiTree T, FILE *fp)
 {
     if(T == NULL)
@@ -577,6 +663,11 @@ status SavePreOrderTraverse(BiTree T, FILE *fp)
     return OK;
 }
 
+/** \brief 读取数据
+ *
+ *        读取文件中的数据并加载到线性表中
+ *
+ */
 status LoadTree(Tree **base)
 {
     FILE *fp = fopen("Bitree.dat","r");
@@ -634,6 +725,9 @@ status LoadTree(Tree **base)
     }
 }
 
+/** \brief 选择当前的多树管理中已存在的树
+ *
+ */
 status ChooseTree(Tree **base)
 {
     int i;
@@ -663,4 +757,27 @@ status ChooseTree(Tree **base)
     printf("\n找不到！请重新加载！\n");
     return ERROR;
 
+}
+
+/** \brief 找节点，返回节点的指针
+*        e是T中某个节点
+*        递归
+*/
+BiTree FindNode(BiTree T,int e)
+{
+    if(T == NULL) return ERROR;
+    if(T->key == e)
+    {
+        return T;
+    }
+
+    BiTree a,b;
+
+    a = FindNode(T->lchild, e);   //遍历左子树
+    b = FindNode(T->rchild, e);   //遍历右子树
+
+    if(a != NULL) return a;
+    if(b != NULL) return b;
+
+    return NULL;    //return NULL 表示没有找到
 }
