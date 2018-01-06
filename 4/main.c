@@ -19,7 +19,7 @@ int main(void)
         printf("-------------------------------------------------\n");
         printf("                     Attation           \n");
         if(graph == NULL)
-            printf("    There is no Graph now! Please Init a list! \n");
+            printf("    There is no Graph now! Please Init a graph! \n");
         else printf("     There is a Graph now!  \n");
         printf("-------------------------------------------------\n");
         printf("    	  1. CreateGraph          8. InsertVex\n");

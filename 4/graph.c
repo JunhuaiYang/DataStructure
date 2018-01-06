@@ -466,7 +466,7 @@ status DFSTraverse(ALGraph G,void (*visit)(char*))
 status BFSTraverse(ALGraph G,void (*visit)(char *))
 {
     int i, u;
-    int Queue[MAX_VERTEX_NUM];
+    int Queue[MAX_VERTEX_NUM];    //初始化队列
     int *qhead, *qtail;
     ArcNode *tail;
     for(i=0; i<G.vexnum; i++)  //标志数组初始化
@@ -503,6 +503,10 @@ status BFSTraverse(ALGraph G,void (*visit)(char *))
     return OK;
 }
 
+/** \brief 深度优先遍历的递归函数
+ *
+ *
+ */
 void DFS(ALGraph G, int v, void (*visit)(char*))
 {
     ArcNode *tail;
@@ -518,6 +522,10 @@ void DFS(ALGraph G, int v, void (*visit)(char*))
     }
 }
 
+/** \brief visit函数
+ *
+ *
+ */
 void printf_my(char* a)
 {
     printf("%s  ",a);

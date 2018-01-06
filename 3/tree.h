@@ -37,7 +37,7 @@ typedef struct bitnode    //二叉树结构定义
     struct bitnode *rchild;
 } BitNode, *BiTree;
 
-typedef struct tree   //树名称定义
+typedef struct tree   //树的头结点
 {
     char name[20];
     BitNode *HeadNode;

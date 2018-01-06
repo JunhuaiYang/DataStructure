@@ -22,7 +22,7 @@
 #define OVERFLOW -2
 
 #define MAX_VERTEX_NUM 20
-#define MAX_NAME 3     //顶点字符串的最大长度 +1
+#define MAX_NAME 4     //顶点字符串的最大长度 +1
 
 typedef int status;
 typedef char ElemType; //数据元素类型定义

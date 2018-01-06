@@ -289,6 +289,8 @@ BiTree Parent(Tree *T,int e)
     else
     {
         BitNode *stack[100], *p;   //   创建栈
+        if(T->HeadNode->key == e)       //当输入的是根节点时
+            return NULL;
         stack[++top] = T->HeadNode;   //头结点入栈
         while (top>-1)
         {

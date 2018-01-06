@@ -45,7 +45,7 @@ int main(void)
         printf("    	  23. ChooseTree    \n");
         printf("    	  0. Exit\n");
         printf("-------------------------------------------------\n");
-        printf("    请选择你的操作[0~22]:");
+        printf("    请选择你的操作[0~23]:");
         scanf("%d",&op);
         switch (op)
         {
@@ -123,7 +123,7 @@ int main(void)
             else
             {
                 count = 0;      //将count置零
-                if(BiTreeEmpty(base) == TRUE);
+                if(BiTreeDepth(base->HeadNode, 0) == TRUE);
                     printf("二叉树的深度为%d！\n", count);
             }
             getch();
@@ -227,7 +227,7 @@ int main(void)
                 ptree = LeftSibling(base, e);
                 if(ptree == ERROR)
                     printf("错误！\n没有找到该节点的左兄弟！\n");
-                else printf("二叉树的该节点左兄弟的地址为：%p 值为%c\n", ptree, ptree->value);
+                else printf("二叉树的该节点左兄弟的键值为：%d 值为%c\n", ptree->key, ptree->value);
             }
             getch();
             break;
@@ -242,7 +242,7 @@ int main(void)
                 ptree = RightSibling(base, e);
                 if(ptree == ERROR)
                     printf("错误！\n没有找到该节点的右兄弟！\n");
-                else printf("二叉树的该节点右兄弟的地址为：%p 值为%c\n", ptree, ptree->value);
+                else printf("二叉树的该节点右兄弟的键值为：%d 值为%c\n", ptree->key, ptree->value);
             }
             getch();
             break;
